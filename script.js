@@ -1,5 +1,6 @@
 let numbers = document.querySelector("#numbers");
-let operators = document.querySelector("#operators")
+let operators = document.querySelector("#operators");
+let output = document.querySelector("#display");
 
 function setup(){
     //setup numbers
@@ -20,7 +21,7 @@ function setup(){
 
     //setup operators
     let operatorCurrentIndex = 0;
-    let operatorTextContent = ["%","√","X", "÷", "+", "-", "="];
+    let operatorTextContent = ["%","√","x", "÷", "+", "-", "="];
     for (let i = 0; i<2; i++){
         let row = document.createElement("div");
         row.className = "operatorRow";
@@ -62,6 +63,44 @@ function setup(){
     
     operators.appendChild(addSubtractEqualsContainerDiv);
 
+}
+
+function add(x,y){
+    return x+y;
+}
+
+function subtract(x,y){
+    return x-y;
+}
+
+function multiply(x,y){
+    return x*y;
+}
+
+function divide(x,y){
+    return x/y;
+}
+
+function operate(number1, operator, number2){
+    console.log(number1);
+    console.log(number2);
+    console.log(operator);
+    if(operator == "+"){
+        output.textContent = String(add(number1,number2));
+    } else if (operator == "-"){
+        output.textContent = String(subtract(number1,number2));
+    } else if (operator == "x"){
+        output.textContent = String(multiply(number1,number2));
+    } else if (operator == "÷"){
+        output.textContent = String(divide(number1,number2));
+    }
+}
+
+function extractVariables(){
+    let raw = display.textContent;
+    let splitInput = raw.split(" ");
+    console.log(splitInput);
+    operate(Number(splitInput[0]),String(splitInput[1]),Number(splitInput[2]));
 }
 
 setup();
