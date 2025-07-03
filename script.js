@@ -1,8 +1,19 @@
 let numbers = document.querySelector("#numbers");
 let operators = document.querySelector("#operators");
 let output = document.querySelector("#display");
+let functionalButtons = document.querySelector("#functions");
 
 function setup(){
+    //clear button
+    let clearDiv = document.createElement("div");
+    clearDiv.className = "clear";
+    clearButton = document.createElement("button");
+    clearButton.textContent = "CE";
+    clearButton.id = "clearButton";
+    clearButton.addEventListener("click", ()=>clear());
+    clearDiv.appendChild(clearButton);
+    functionalButtons.appendChild(clearDiv);
+    
     //setup numbers
     let numberCurrentIndex = 0;
     let numberTextContent = ["7","8","9","4","5","6","1","2","3","0",".","(-)"]
@@ -86,24 +97,25 @@ function divide(x,y){
     return x/y;
 }
 
-function numberPressed(num){
-    console.log(num);
-    console.log(typeof(num));
-    output.textContent += String(num);
+function numberPressed(num){ //TODO: add logic for . and (-)
+    if (num == "."){
+
+    } else if (num == "(-)"){
+
+    } else {
+        output.textContent += String(num);
+    }
 }
 
 function operatorPressed(op){
     output.textContent += ` ${op} `;
 }
 
-function clear(){ //TODO: add button for this
+function clear(){
     output.textContent = "";
 }
 
 function operate(number1, operator, number2){
-    console.log(number1);
-    console.log(number2);
-    console.log(operator);
     if(operator == "+"){
         output.textContent = String(add(number1,number2));
     } else if (operator == "-"){
@@ -112,14 +124,23 @@ function operate(number1, operator, number2){
         output.textContent = String(multiply(number1,number2));
     } else if (operator == "÷"){
         output.textContent = String(divide(number1,number2));
+    } else if (operator == "%"){
+        output.textContent = String(number1 % number2);
+    } else if (operator == "√"){ //fix this
+        if(!number2){
+            output.textContent = String(Math.sqrt(number1))
+        }
     }
 }
 
 function extractVariables(){
     let raw = display.textContent;
     let splitInput = raw.split(" ");
-    console.log(splitInput);
     operate(Number(splitInput[0]),String(splitInput[1]),Number(splitInput[2]));
 }
 
 setup();
+
+//TODO: make sure text doesn't go offscreen (limit characters maybe)
+//you can only put 1 decimal dot
+//
