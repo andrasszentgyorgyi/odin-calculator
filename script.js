@@ -14,6 +14,7 @@ function setup(){
             rowElement.className = "number";
             rowElement.textContent = numberTextContent[numberCurrentIndex];
             numberCurrentIndex++;
+            rowElement.addEventListener("click", ()=>numberPressed(rowElement.textContent));
             row.appendChild(rowElement);
         }
         numbers.appendChild(row);
@@ -30,6 +31,7 @@ function setup(){
             rowElement.className = "operator";
             rowElement.textContent = operatorTextContent[operatorCurrentIndex];
             operatorCurrentIndex++;
+            rowElement.addEventListener("click", ()=>operatorPressed(rowElement.textContent));
             row.appendChild(rowElement);
         }
         operators.appendChild(row);
@@ -46,16 +48,19 @@ function setup(){
     addButton.textContent = "+";
     addButton.className = "operator";
     addButton.id = "addButton";
+    addButton.addEventListener("click", ()=>operatorPressed(addButton.textContent));
     addContainerDiv.appendChild(addButton);
 
     let subtractButton = document.createElement("button");
     subtractButton.textContent="-";
     subtractButton.className = "operator";
+    subtractButton.addEventListener("click", ()=>operatorPressed(subtractButton.textContent));
     subtractEqualsContainerDiv.appendChild(subtractButton);
 
     let equalsButton = document.createElement("button");
     equalsButton.textContent="=";
     equalsButton.className="operator";
+    equalsButton.addEventListener("click", ()=>extractVariables());
     subtractEqualsContainerDiv.appendChild(equalsButton);
 
     addSubtractEqualsContainerDiv.appendChild(addContainerDiv);
@@ -79,6 +84,20 @@ function multiply(x,y){
 
 function divide(x,y){
     return x/y;
+}
+
+function numberPressed(num){
+    console.log(num);
+    console.log(typeof(num));
+    output.textContent += String(num);
+}
+
+function operatorPressed(op){
+    output.textContent += ` ${op} `;
+}
+
+function clear(){ //TODO: add button for this
+    output.textContent = "";
 }
 
 function operate(number1, operator, number2){
