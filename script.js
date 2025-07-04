@@ -14,7 +14,7 @@ function setup(){
     clearButton.addEventListener("click", ()=>clear());
     clearDiv.appendChild(clearButton);
     functionalButtons.appendChild(clearDiv);
-    
+
     
     //setup numbers
     let numberCurrentIndex = 0;
@@ -99,7 +99,7 @@ function divide(x,y){
     return x/y;
 }
 
-function numberPressed(num){ //TODO: add logic for . and (-)
+function numberPressed(num){
     if (num == "."){ //1 per number 
         let splitText = output.textContent.split(" ");
         if(Number.isInteger(+splitText[splitText.length-1])){
@@ -120,50 +120,65 @@ function numberPressed(num){ //TODO: add logic for . and (-)
     }
 }
 
-function operatorPressed(op){
-    output.textContent += ` ${op} `;
+function operatorPressed(op) {
+    let splitText = output.textContent.trim().split(" ");
+
+    if (op === "√") {
+        if (splitText.length === 1 && splitText[0] !== "") {
+            let num = Number(splitText[0]);
+            if (num >= 0) {
+                operate(num, "√");
+            } else {
+                output.textContent = "Error";
+            }
+        }
+        return;
+    }
+
+    if (splitText.length === 3 && splitText[2] !== "") {
+        let result = operate(Number(splitText[0]), splitText[1], Number(splitText[2]));
+        output.textContent = `${result} ${op} `;
+    } else if (splitText.length === 1 && splitText[0] !== "") {
+        output.textContent += ` ${op} `;
+    }
 }
+
 
 function clear(){
     output.textContent = "";
 }
 
-function operate(number1, operator, number2){
-    if(operator == "+"){
-        output.textContent = String(add(number1,number2));
-    } else if (operator == "-"){
-        output.textContent = String(subtract(number1,number2));
-    } else if (operator == "x"){
-        output.textContent = String(multiply(number1,number2));
-    } else if (operator == "÷"){
-        output.textContent = String(divide(number1,number2));
-    } else if (operator == "%"){
-        output.textContent = String(number1 % number2);
-    } else if (operator == "√"){ //fix this
-        if(!number2){
-            output.textContent = String(Math.sqrt(number1))
+function operate(number1, operator, number2) {
+    let result;
+    if (operator == "+") {
+        result = add(number1, number2);
+    } else if (operator == "-") {
+        result = subtract(number1, number2);
+    } else if (operator == "x") {
+        result = multiply(number1, number2);
+    } else if (operator == "÷") {
+        result = divide(number1, number2);
+    } else if (operator == "%") {
+        result = number1 % number2;
+    } else if (operator === "√") {
+        if (number1 >= 0) {
+            result = Math.sqrt(number1);
+        } else {
+            result = "Error";
         }
     }
+    output.textContent = String(result);
+    return result;
 }
 
-function extractVariables(){
-    let raw = display.textContent;
+
+function extractVariables() {
+    let raw = output.textContent.trim();
     let splitInput = raw.split(" ");
-    if (splitInput.length == 3){
-        if (splitInput[3] != ""){
-            operate(Number(splitInput[0]),String(splitInput[1]),Number(splitInput[2]));
-        }
-    } else if (splitInput.length > 3){
-        if (splitInput.length % 2 == 1){
-            let leftSide = operate(Number(splitInput[0]),String(splitInput[1]),Number(splitInput[2]));
-            for(let i = 4; i<splitInput.length; i++){
 
-            }
-        }
+    if (splitInput.length === 3 && splitInput[2] !== "") {
+        operate(Number(splitInput[0]), splitInput[1], Number(splitInput[2]));
     }
-
 }
 
 setup();
-
-//TODO: make sure text doesn't go offscreen (limit characters maybe)
