@@ -2,6 +2,7 @@ let numbers = document.querySelector("#numbers");
 let operators = document.querySelector("#operators");
 let output = document.querySelector("#display");
 let functionalButtons = document.querySelector("#functions");
+let titleDisplayContainer = document.querySelector("#titleDisplayContainer")
 
 function setup(){
     //clear button
@@ -13,6 +14,7 @@ function setup(){
     clearButton.addEventListener("click", ()=>clear());
     clearDiv.appendChild(clearButton);
     functionalButtons.appendChild(clearDiv);
+    
     
     //setup numbers
     let numberCurrentIndex = 0;
@@ -147,11 +149,21 @@ function operate(number1, operator, number2){
 function extractVariables(){
     let raw = display.textContent;
     let splitInput = raw.split(" ");
-    operate(Number(splitInput[0]),String(splitInput[1]),Number(splitInput[2]));
+    if (splitInput.length == 3){
+        if (splitInput[3] != ""){
+            operate(Number(splitInput[0]),String(splitInput[1]),Number(splitInput[2]));
+        }
+    } else if (splitInput.length > 3){
+        if (splitInput.length % 2 == 1){
+            let leftSide = operate(Number(splitInput[0]),String(splitInput[1]),Number(splitInput[2]));
+            for(let i = 4; i<splitInput.length; i++){
+
+            }
+        }
+    }
+
 }
 
 setup();
 
 //TODO: make sure text doesn't go offscreen (limit characters maybe)
-//you can only put 1 decimal dot
-//
