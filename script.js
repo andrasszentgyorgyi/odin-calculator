@@ -98,9 +98,20 @@ function divide(x,y){
 }
 
 function numberPressed(num){ //TODO: add logic for . and (-)
-    if (num == "."){
+    if (num == "."){ //1 per number 
+        let splitText = output.textContent.split(" ");
+        if(Number.isInteger(+splitText[splitText.length-1])){
+            if(!(splitText[splitText.length-1].includes("."))){
+                output.textContent += ".";
+            }
+        }
 
-    } else if (num == "(-)"){
+    } else if (num == "(-)"){ //append to beginning of number currently being typed
+        let splitText = output.textContent.split(" ");
+        if(Number.isInteger(+splitText[splitText.length-1])){
+            splitText[splitText.length-1] = "-" + splitText[splitText.length-1];
+            output.textContent = splitText.join(" ");
+        }
 
     } else {
         output.textContent += String(num);
